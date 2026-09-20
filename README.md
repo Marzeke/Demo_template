@@ -7,7 +7,7 @@ hard to talk you out of believing the result.
 
 ![strategies](https://img.shields.io/badge/strategies-10-002664)
 ![markets](https://img.shields.io/badge/universes-10-0A34A1)
-![tests](https://img.shields.io/badge/tests-160%20passing-4B87E0)
+![tests](https://img.shields.io/badge/tests-161%20passing-4B87E0)
 
 ## Quick start
 
@@ -141,7 +141,7 @@ src/
 data/
   external/ibkr/       bundled real bars, 21 instruments
   raw/                 provider cache
-tests/                 160 tests, including look-ahead checks
+tests/                 161 tests, including look-ahead checks
 docs/                  plan and strategy research
 ```
 

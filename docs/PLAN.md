@@ -104,7 +104,7 @@ model them badly is worse than naming them.
 | `src/report.py` | Standalone HTML report |
 | `src/app/` | Interactive app |
 | `src/cli.py` | Command line |
-| `tests/` | 160 tests, including look-ahead checks on every indicator and strategy |
+| `tests/` | 161 tests, including look-ahead checks on every indicator and strategy |
 
 ## Build order, and what each step cost
 
