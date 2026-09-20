@@ -94,3 +94,17 @@ target/
 
 # exclude data from source control by default
 # /data/
+# --- Project specific ------------------------------------------------------
+# The provider cache is regenerable from the providers themselves.
+/data/raw/*/
+!/data/raw/.gitkeep
+
+# Generated analysis. The bundled real bars in data/external ARE tracked, so the
+# repository works with no network; everything below is produced from them.
+/reports/*.html
+/reports/figures/*.html
+/reports/figures/*.png
+/models/*.json
+
+# Scratch
+.pytest_cache/

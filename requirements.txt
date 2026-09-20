@@ -1,2 +1,18 @@
+# Core
+numpy>=1.26
+pandas>=2.2
+python-dotenv>=1.0
+
+# Charting
+plotly>=5.20
+
+# Interactive app
+streamlit>=1.32
+
+# Data providers (both optional; the app degrades without them)
+yfinance>=0.2.40
+requests>=2.31
+
+# Development
+pytest>=8.0
 ipykernel
-python-dotenv
