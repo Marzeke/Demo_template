@@ -12,6 +12,19 @@ They need Claude Code 2.1.288 or newer (`claude --version`; update with `claude 
 
 ## Install
 
+### Windows: one command
+
+Unzip, open PowerShell in the `claude-mods` folder (Shift + right-click the folder >
+"Open PowerShell window here") and run:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\install-windows.ps1
+```
+
+It copies the mods to `%USERPROFILE%\.claude\mods\`, backs up your `settings.json`, and adds
+the mod folders to `CLAUDE_CODE_PLUGIN_DIRS` while keeping everything else in the file.
+Add `-DryRun` to preview first. Then restart VS Code. The manual steps below do the same thing.
+
 ### 1. Copy the mod folders
 
 Copy each mod folder you want into a `mods` folder in your Claude config directory:
