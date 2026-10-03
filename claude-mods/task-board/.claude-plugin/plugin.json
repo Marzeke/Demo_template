@@ -1,0 +1,15 @@
+{
+  "name": "task-board",
+  "version": "0.1.0",
+  "description": "A pane showing Claude's task list with progress, so long multi-step jobs are easy to follow.",
+  "author": { "name": "Marcus" },
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "autoOpen": {
+      "type": "boolean",
+      "title": "Open when Claude starts a task list",
+      "description": "Open the task board automatically when Claude creates its first task (on wide terminals). Otherwise use /tasks.",
+      "default": true
+    }
+  }
+}

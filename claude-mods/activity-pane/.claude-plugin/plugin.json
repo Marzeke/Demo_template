@@ -1,0 +1,15 @@
+{
+  "name": "activity-pane",
+  "version": "0.1.0",
+  "description": "A side pane listing the files Claude changed and read and the commands it ran this session.",
+  "author": { "name": "Marcus" },
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "autoOpen": {
+      "type": "boolean",
+      "title": "Open the pane automatically",
+      "description": "Open the activity pane when a session starts (on wide terminals). Otherwise use /activity.",
+      "default": true
+    }
+  }
+}

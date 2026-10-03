@@ -1,0 +1,21 @@
+{
+  "name": "turn-timer",
+  "version": "0.1.0",
+  "description": "Times each turn, shows a live timer while Claude works, and warns about slow turns or repeated commands.",
+  "author": { "name": "Marcus" },
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "slowSeconds": {
+      "type": "number",
+      "title": "Slow turn warning (seconds)",
+      "description": "Warn when a turn takes longer than this.",
+      "default": 300
+    },
+    "repeatLimit": {
+      "type": "number",
+      "title": "Repeated command warning (times)",
+      "description": "Warn when Claude makes the identical tool call this many times in one turn.",
+      "default": 3
+    }
+  }
+}
