@@ -1,0 +1,29 @@
+{
+  "name": "usage-meter",
+  "version": "0.1.0",
+  "description": "Shows context used and session cost under the prompt, and warns when either passes a threshold you set.",
+  "author": {
+    "name": "Marcus"
+  },
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "contextWarnTokens": {
+      "type": "number",
+      "title": "Context warning (tokens)",
+      "description": "Warn once when the context window passes this many tokens.",
+      "default": 300000
+    },
+    "costWarnUsd": {
+      "type": "number",
+      "title": "First cost warning (USD)",
+      "description": "Warn when this session's cost first passes this many dollars.",
+      "default": 50
+    },
+    "costStepUsd": {
+      "type": "number",
+      "title": "Repeat cost warning every (USD)",
+      "description": "After the first warning, warn again each time cost grows by this much.",
+      "default": 50
+    }
+  }
+}
