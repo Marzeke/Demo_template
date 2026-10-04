@@ -37,6 +37,8 @@ Notes:
 | agents-panel | `/agent-panel` | Side panel of subagents with mascots, model, effort tier, context, tokens, cost, time. Not `/agents` (built-in). |
 
 Rules:
+- Agents-panel mascots use the **screenshot** colours (the default) on every machine. Leave
+  "Mascot colours" in `/config` on `screenshot`.
 - Load status-band **or** usage-meter + turn-timer, never both.
 - Mods only run when listed in `CLAUDE_CODE_PLUGIN_DIRS` in the user `settings.json`.
 - Separator: `:` on Mac, `;` on Windows. Windows paths need doubled backslashes in JSON.
@@ -115,4 +117,5 @@ Try the installer as above. If PowerShell refuses to run it:
 | 2026-10-04 | Mac: status-band (built locally) replaces usage-meter and turn-timer. Installer and README updated to match. |
 | 2026-10-04 | agents-panel: mascots added (hat shape per effort tier, legs walk while running). |
 | 2026-10-04 | agents-panel 0.2.0: pixel-art mascots like the reference screenshot; colour themes `screenshot` (default), `claude`, `simple` in `/config`. Copy the new agents-panel folder to each machine. |
+| 2026-10-04 | Decision: mascots stay on the screenshot colours on all machines. |
 | 2026-10-04 | agents-panel 0.3.0: more detailed 16x16 mascots in Claude Code's mascot shape (arms, four legs), speckled beanie with flag, hard hat with badge, ridged helmet with goggles band and visor, cap with chequered flag, twinkle sparkle. |
