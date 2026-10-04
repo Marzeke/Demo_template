@@ -18,8 +18,9 @@ Last updated: 2026-10-04
 | State | Installed. Copy the new agents-panel 0.3.0 (detailed pixel mascots) | Instructions given. Check the settings line uses `marcu`, not `MZIYEUNG` | Not installed yet |
 
 Notes:
-- The Mac's `~/.claude/mods` also holds old `usage-meter` and `turn-timer` folders. They stay
-  on disk but are **not** in the settings line, so they do not load. That is intended.
+- The Mac's `~/.claude/mods` holds activity-pane, agents-panel, status-band, task-board and an
+  old `usage-meter` folder (checked 2026-10-04; `turn-timer` is gone). usage-meter stays on disk
+  but is **not** in the settings line, so it does not load. That is intended.
 - The work laptop is a managed Schenker machine: PowerShell scripts may be blocked by policy.
   Use the manual Windows steps there if the installer will not run.
 - The two Windows PCs have **different user folders** (`marcu` vs `MZIYEUNG`). The installer
@@ -117,5 +118,6 @@ Try the installer as above. If PowerShell refuses to run it:
 | 2026-10-04 | Mac: status-band (built locally) replaces usage-meter and turn-timer. Installer and README updated to match. |
 | 2026-10-04 | agents-panel: mascots added (hat shape per effort tier, legs walk while running). |
 | 2026-10-04 | agents-panel 0.2.0: pixel-art mascots like the reference screenshot; colour themes `screenshot` (default), `claude`, `simple` in `/config`. Copy the new agents-panel folder to each machine. |
+| 2026-10-04 | Mac mods folder checked: activity-pane, agents-panel, status-band, task-board, usage-meter (unloaded). Settings line confirmed as status-band, activity-pane, task-board, agents-panel. |
 | 2026-10-04 | Decision: mascots stay on the screenshot colours on all machines. |
 | 2026-10-04 | agents-panel 0.3.0: more detailed 16x16 mascots in Claude Code's mascot shape (arms, four legs), speckled beanie with flag, hard hat with badge, ridged helmet with goggles band and visor, cap with chequered flag, twinkle sparkle. |
