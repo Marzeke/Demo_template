@@ -12,6 +12,8 @@
 All of them work on macOS and Windows, in the terminal and in the VS Code extension.
 They need Claude Code 2.1.288 or newer (`claude --version`; update with `claude update`).
 
+**Which machine runs what:** see [MACHINES.md](MACHINES.md).
+
 ## Which mods to load
 
 Load **one** of these two setups. Never load status-band together with usage-meter or

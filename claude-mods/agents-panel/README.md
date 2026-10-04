@@ -3,6 +3,8 @@
 A side panel showing every subagent Claude starts in a session.
 
 - **Totals** across all agents: cost, tokens and elapsed time.
+- **A mascot per agent**: its hat shows the effort tier (small cap = light, flat cap = medium,
+  hard hat = careful, big hat = heavy), its legs walk while it runs, and it shows `x` eyes if it failed.
 - **Running** agents, each with its task, a tier word from its effort (light, medium,
   careful, heavy), model and effort, context used (% and tokens), cost so far and a live
   clock, plus a context bar.

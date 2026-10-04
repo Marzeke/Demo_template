@@ -2,7 +2,7 @@ import { expect, mock, test } from 'claude-code/testing'
 import type { On, RenderPropsOf } from 'claude-code'
 import type { Engine } from 'claude-code/testing'
 
-import { formatClock, formatCost, formatTokens, modelLabel, tierLabel } from './register'
+import { formatClock, formatCost, formatTokens, mascot, modelLabel, tierLabel } from './register'
 
 const PANE_PROPS = {
   title: 'Agents', isFocused: false, bodyColumns: 50, placement: 'dock',
@@ -24,6 +24,16 @@ test('labels match the panel style', () => {
   expect(formatCost(14.43)).toBe('$14.4')
   expect(formatClock(201_000)).toBe('3:21')
   expect(formatClock(1_365_000)).toBe('22:45')
+})
+
+test('mascots wear a hat per tier and walk while running', () => {
+  expect(mascot('heavy', 'running', 0)).toEqual(['▄███▄', '▐•▄•▌', ' ▛ ▜ '])
+  expect(mascot('heavy', 'running', 1)[2]).toBe(' ▜ ▛ ')
+  expect(mascot('careful', 'completed', 5)).toEqual(['▗▇▇▇▖', '▐•▄•▌', ' ▀ ▀ '])
+  expect(mascot('light', 'failed', 0)[1]).toBe('▐x▄x▌')
+  const hats = ['light', 'medium', 'careful', 'heavy'].map(t => mascot(t, 'running', 0)[0])
+  expect(new Set(hats).size).toBe(4)
+  for (const row of mascot('medium', 'stopped', 0)) expect([...row].length).toBe(5)
 })
 
 // The engine beneath: a session whose cost grows by `costPerStep` with each model response.
@@ -74,6 +84,8 @@ test('agents move from running to completed with their figures', async ($, on) =
     expect(await ui.find({ text: 'Cache clock handover' })).toBeDefined()
     expect(await ui.find({ text: /heavy/ })).toBeDefined()
     expect(await ui.find({ text: /Opus 5\.5 · xhigh/ })).toBeDefined()
+    expect(await ui.find({ text: '▄███▄' })).toBeDefined()
+    expect(await ui.find({ text: '▗▇▇▇▖' })).toBeDefined()
     expect(await ui.find({ text: /ctx 18% · 175k · ≈\$0\.50 · 3:21/ })).toBeDefined()
     expect(await ui.find({ key: 'toggle-completed', text: /Completed · 1/ })).toBeDefined()
     expect(await ui.find({ text: 'Stable session prefix' })).toBeDefined()

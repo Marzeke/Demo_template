@@ -59,6 +59,25 @@ const totalTokens = (u: ModelUsage): number =>
 
 const inputSide = (u: ModelUsage): number => u.input_tokens + u.cache_read_input_tokens + u.cache_creation_input_tokens
 
+// Hats tell the tiers apart by shape, so they read in any theme and colour scheme.
+const HATS: Record<string, string> = {
+  light: '  ▂  ',
+  medium: ' ▄▄▄ ',
+  careful: '▗▇▇▇▖',
+  heavy: '▄███▄',
+  custom: ' ▄▄▄ ',
+  '': '     ',
+}
+
+// A three-row critter: hat for the tier, a face, and legs that walk while the agent runs.
+export const mascot = (tier: string, status: AgentStatus, frame: number): [string, string, string] => {
+  const hat = HATS[tier] ?? HATS['']!
+  const face = status === 'failed' ? '▐x▄x▌' : status === 'stopped' ? '▐-▄-▌' : '▐•▄•▌'
+  const legs = status === 'running' ? (frame % 2 === 0 ? ' ▛ ▜ ' : ' ▜ ▛ ') : ' ▀ ▀ '
+
+  return [hat, face, legs]
+}
+
 const newRow = (id: string, startedAt: number, fields: Partial<AgentRow> = {}): AgentRow => ({
   id,
   description: `Agent ${id.slice(0, 6)}`,
@@ -225,7 +244,7 @@ export const register: Register = (on, options) => {
     const window = (await read($, contextWindow)) || 200_000
     const isCollapsed = await read($, isCompletedCollapsed)
     const width = Math.max(20, (e.props.bodyColumns || 40) - 2)
-    const barWidth = Math.max(10, width - 4)
+    const barWidth = Math.max(10, width - 10)
 
     if (list.length === 0) {
       return <Text dimColor>No agents yet. Subagents appear here as soon as Claude starts one.</Text>
@@ -253,25 +272,35 @@ export const register: Register = (on, options) => {
       const tier = tierLabel(r.effort)
       const meta = [modelLabel(r.model), r.effort].filter(Boolean).join(' · ')
 
+      const [hat, face, legs] = mascot(tier, r.status, Math.floor(t / 1000))
+      const body = r.status === 'running' ? ACCENT : r.status === 'completed' ? LIGHT : undefined
+
       return (
-        <Box key={r.id} flexDirection="column" marginBottom={1}>
-          <Box flexDirection="row" justifyContent="space-between">
-            <Text bold wrap="truncate-end">{r.description}</Text>
-            <Text color={r.status === 'running' ? ACCENT : undefined} bold={r.status === 'failed'} dimColor={r.status === 'completed'}>
-              {' '}{mark}
+        <Box key={r.id} flexDirection="row" marginBottom={1}>
+          <Box flexDirection="column" width={6} flexShrink={0}>
+            <Text bold>{hat}</Text>
+            <Text color={body} dimColor={r.status === 'stopped'}>{face}</Text>
+            <Text color={body} dimColor={r.status === 'stopped'}>{legs}</Text>
+          </Box>
+          <Box flexDirection="column" flexGrow={1}>
+            <Box flexDirection="row" justifyContent="space-between">
+              <Text bold wrap="truncate-end">{r.description}</Text>
+              <Text color={r.status === 'running' ? ACCENT : undefined} bold={r.status === 'failed'} dimColor={r.status === 'completed'}>
+                {' '}{mark}
+              </Text>
+            </Box>
+            <Text wrap="truncate-end">
+              {tier ? <Text color={ACCENT} bold={tier === 'heavy'}>{tier} </Text> : ''}
+              <Text dimColor>{meta || r.type || 'starting...'}</Text>
+            </Text>
+            <Text dimColor wrap="truncate-end">
+              ctx {pct}% · {formatTokens(r.contextTokens)} · ≈{formatCost(r.costUsd)} · {elapsed}
+            </Text>
+            <Text>
+              <Text color={r.status === 'running' ? ACCENT : LIGHT}>{'━'.repeat(filled)}</Text>
+              <Text dimColor>{'─'.repeat(barWidth - filled)}</Text>
             </Text>
           </Box>
-          <Text wrap="truncate-end">
-            {tier ? <Text color={ACCENT} bold={tier === 'heavy'}>{tier} </Text> : ''}
-            <Text dimColor>{meta || r.type || 'starting...'}</Text>
-          </Text>
-          <Text dimColor wrap="truncate-end">
-            ctx {pct}% · {formatTokens(r.contextTokens)} · ≈{formatCost(r.costUsd)} · {elapsed}
-          </Text>
-          <Text>
-            <Text color={r.status === 'running' ? ACCENT : LIGHT}>{'━'.repeat(filled)}</Text>
-            <Text dimColor>{'─'.repeat(barWidth - filled)}</Text>
-          </Text>
         </Box>
       )
     }
