@@ -3,6 +3,9 @@ import type { EngineInterface, ModelUsage, Register } from 'claude-code'
 
 import type { AgentRow, AgentStatus } from '../types'
 
+import { rasterCells, spritePixels, spriteSvg } from './sprite'
+import type { MascotTheme } from './sprite'
+
 const PANE = 'agents'
 const ACCENT = '#4B87E0'
 const LIGHT = '#BCDBEC'
@@ -133,6 +136,8 @@ async function costDelta($: EngineInterface): Promise<number> {
 
 export const register: Register = (on, options) => {
   const autoOpen = options.autoOpen !== false
+  const mascotStyle = String(options.mascotColors ?? 'screenshot')
+  const theme: MascotTheme = mascotStyle === 'claude' ? 'claude' : 'screenshot'
   ticker = undefined
 
   on('session.start', async ($, e, next) => {
@@ -238,13 +243,14 @@ export const register: Register = (on, options) => {
   })
 
   on('ui.render', { component: 'Pane', requestId: PANE }, async ($, e) => {
-    const { Box, Text, Button } = $.ui.resolve(e)
+    const elements = $.ui.resolve(e)
+    const { Box, Text, Button } = elements
     const list = await read($, agents)
     const t = Math.max(await read($, now), ...list.map(r => r.endedAt ?? 0))
     const window = (await read($, contextWindow)) || 200_000
     const isCollapsed = await read($, isCompletedCollapsed)
     const width = Math.max(20, (e.props.bodyColumns || 40) - 2)
-    const barWidth = Math.max(10, width - 10)
+    const barWidth = Math.max(10, width - (e.surface === 'terminal' ? 16 : 10))
 
     if (list.length === 0) {
       return <Text dimColor>No agents yet. Subagents appear here as soon as Claude starts one.</Text>
@@ -264,6 +270,36 @@ export const register: Register = (on, options) => {
       </Box>
     )
 
+    // The pixel critter where the surface can draw one; undefined falls back to the text critter.
+    const frame = Math.floor(t / 1000)
+    const sprite = (r: AgentRow, tier: string) => {
+      if (mascotStyle === 'simple') return undefined
+      const pixels = spritePixels(tier, r.status, frame, theme)
+      const alt = `${tier || 'agent'} mascot, ${r.status}`
+      // Raster draws only on the terminal (other surfaces list it but draw nothing).
+      if (e.surface === 'terminal' && 'Raster' in elements) {
+        const { Raster } = elements
+        const grid = rasterCells(pixels)
+
+        return (
+          <Box flexDirection="column" width={13} flexShrink={0}>
+            <Raster key={`m-${r.id}`} columns={grid.columns} rows={grid.rows} cells={grid.cells} />
+          </Box>
+        )
+      }
+      if ('Svg' in elements) {
+        const { Svg } = elements
+
+        return (
+          <Box flexDirection="column" width={6} flexShrink={0}>
+            <Svg source={spriteSvg(pixels)} alt={alt} width={36} height={36} />
+          </Box>
+        )
+      }
+
+      return undefined
+    }
+
     const card = (r: AgentRow) => {
       const pct = Math.min(100, Math.round((r.contextTokens / window) * 100))
       const filled = Math.round((pct / 100) * barWidth)
@@ -277,11 +313,13 @@ export const register: Register = (on, options) => {
 
       return (
         <Box key={r.id} flexDirection="row" marginBottom={1}>
-          <Box flexDirection="column" width={6} flexShrink={0}>
-            <Text bold>{hat}</Text>
-            <Text color={body} dimColor={r.status === 'stopped'}>{face}</Text>
-            <Text color={body} dimColor={r.status === 'stopped'}>{legs}</Text>
-          </Box>
+          {sprite(r, tier) ?? (
+            <Box flexDirection="column" width={6} flexShrink={0}>
+              <Text bold>{hat}</Text>
+              <Text color={body} dimColor={r.status === 'stopped'}>{face}</Text>
+              <Text color={body} dimColor={r.status === 'stopped'}>{legs}</Text>
+            </Box>
+          )}
           <Box flexDirection="column" flexGrow={1}>
             <Box flexDirection="row" justifyContent="space-between">
               <Text bold wrap="truncate-end">{r.description}</Text>

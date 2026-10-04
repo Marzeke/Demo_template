@@ -1,8 +1,10 @@
 {
   "name": "agents-panel",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A side panel of every subagent this session: running and completed, with model, effort, context, tokens, cost and time.",
-  "author": { "name": "Marcus" },
+  "author": {
+    "name": "Marcus"
+  },
   "types": "./types/index.d.ts",
   "userConfig": {
     "autoOpen": {
@@ -10,6 +12,17 @@
       "title": "Open when an agent starts",
       "description": "Open the agents panel the first time a subagent starts in a session (on wide terminals). Otherwise use /agent-panel.",
       "default": true
+    },
+    "mascotColors": {
+      "type": "string",
+      "title": "Mascot colours",
+      "description": "screenshot: coral critters with tier-coloured hats. claude: Claude's terracotta and accent colours. simple: small text critters.",
+      "options": [
+        "screenshot",
+        "claude",
+        "simple"
+      ],
+      "default": "screenshot"
     }
   }
 }

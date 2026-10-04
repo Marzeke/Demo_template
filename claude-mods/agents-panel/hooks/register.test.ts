@@ -3,6 +3,7 @@ import type { On, RenderPropsOf } from 'claude-code'
 import type { Engine } from 'claude-code/testing'
 
 import { formatClock, formatCost, formatTokens, mascot, modelLabel, tierLabel } from './register'
+import { rasterCells, spritePixels, spriteSvg } from './sprite'
 
 const PANE_PROPS = {
   title: 'Agents', isFocused: false, bodyColumns: 50, placement: 'dock',
@@ -34,6 +35,23 @@ test('mascots wear a hat per tier and walk while running', () => {
   const hats = ['light', 'medium', 'careful', 'heavy'].map(t => mascot(t, 'running', 0)[0])
   expect(new Set(hats).size).toBe(4)
   for (const row of mascot('medium', 'stopped', 0)) expect([...row].length).toBe(5)
+})
+
+test('pixel sprites differ per tier and theme, walk, sparkle and fade', () => {
+  const heavy = spritePixels('heavy', 'running', 0, 'screenshot')
+  expect(heavy.length).toBe(12)
+  expect(heavy.every(row => row.length === 12)).toBe(true)
+  expect(heavy[6]![0]).toBe(0xe8775a)
+  expect(spritePixels('heavy', 'running', 0, 'claude')[6]![0]).toBe(0xd97757)
+  const hatRows = (t: string) => JSON.stringify(spritePixels(t, 'running', 0, 'screenshot').slice(0, 5))
+  expect(new Set(['light', 'medium', 'careful', 'heavy'].map(hatRows)).size).toBe(4)
+  expect(JSON.stringify(spritePixels('light', 'running', 1, 'screenshot'))).not.toBe(JSON.stringify(spritePixels('light', 'running', 0, 'screenshot')))
+  expect(spritePixels('careful', 'completed', 0, 'screenshot')[2]![0]).not.toBe(-1)
+  expect(spritePixels('careful', 'failed', 0, 'screenshot')[6]![0]).not.toBe(0xe8775a)
+  const grid = rasterCells(heavy)
+  expect([grid.columns, grid.rows]).toEqual([12, 6])
+  expect(atob(grid.cells).length).toBe(12 * 6 * 12)
+  expect(spriteSvg(heavy)).toContain('fill="#e8775a"')
 })
 
 // The engine beneath: a session whose cost grows by `costPerStep` with each model response.
@@ -84,8 +102,7 @@ test('agents move from running to completed with their figures', async ($, on) =
     expect(await ui.find({ text: 'Cache clock handover' })).toBeDefined()
     expect(await ui.find({ text: /heavy/ })).toBeDefined()
     expect(await ui.find({ text: /Opus 5\.5 · xhigh/ })).toBeDefined()
-    expect(await ui.find({ text: '▄███▄' })).toBeDefined()
-    expect(await ui.find({ text: '▗▇▇▇▖' })).toBeDefined()
+    expect(await ui.find({ type: surface === 'terminal' ? 'Raster' : 'Svg' })).toBeDefined()
     expect(await ui.find({ text: /ctx 18% · 175k · ≈\$0\.50 · 3:21/ })).toBeDefined()
     expect(await ui.find({ key: 'toggle-completed', text: /Completed · 1/ })).toBeDefined()
     expect(await ui.find({ text: 'Stable session prefix' })).toBeDefined()
@@ -96,6 +113,18 @@ test('agents move from running to completed with their figures', async ($, on) =
     await ui.press({ key: 'toggle-completed' })
     await ui.unmount()
   }
+})
+
+test('the simple style keeps the text critters', { options: { mascotColors: 'simple' } }, async ($, on) => {
+  mock.clock(on)
+  engine(on, 0.1)
+  await $.session.start({ cwd: '/p', source: 'startup' } as never)
+  await spawn($, 'Server threads')
+  await step($, 'agent-1', 'xhigh')
+  const ui = await $.ui.mount({ plugin: 'agents-panel', surface: 'terminal', component: 'Pane', requestId: 'agents', props: PANE_PROPS })
+  expect(await ui.find({ text: '▄███▄' })).toBeDefined()
+  expect(await ui.find({ type: 'Raster' })).toBeUndefined()
+  await ui.unmount()
 })
 
 test('a failed agent is marked', async ($, on) => {
