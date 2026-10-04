@@ -1,0 +1,15 @@
+{
+  "name": "agents-panel",
+  "version": "0.1.0",
+  "description": "A side panel of every subagent this session: running and completed, with model, effort, context, tokens, cost and time.",
+  "author": { "name": "Marcus" },
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "autoOpen": {
+      "type": "boolean",
+      "title": "Open when an agent starts",
+      "description": "Open the agents panel the first time a subagent starts in a session (on wide terminals). Otherwise use /agent-panel.",
+      "default": true
+    }
+  }
+}

@@ -6,8 +6,9 @@
 | [activity-pane](activity-pane/README.md) | Pane of files changed, files read and commands run | `/activity` |
 | [turn-timer](turn-timer/README.md) | Live turn timer, slow-turn and going-in-circles warnings | `/turns` |
 | [task-board](task-board/README.md) | Claude's task list as a board with progress | `/tasks` |
+| [agents-panel](agents-panel/README.md) | Side panel of running and completed subagents with cost, tokens, context and time | `/agent-panel` |
 
-All four work on macOS and Windows, in the terminal and in the VS Code extension.
+All of them work on macOS and Windows, in the terminal and in the VS Code extension.
 They need Claude Code 2.1.288 or newer (`claude --version`; update with `claude update`).
 
 ## Install
@@ -46,7 +47,7 @@ Mac:
 ```json
 {
   "env": {
-    "CLAUDE_CODE_PLUGIN_DIRS": "~/.claude/mods/usage-meter:~/.claude/mods/activity-pane:~/.claude/mods/turn-timer:~/.claude/mods/task-board"
+    "CLAUDE_CODE_PLUGIN_DIRS": "~/.claude/mods/usage-meter:~/.claude/mods/activity-pane:~/.claude/mods/turn-timer:~/.claude/mods/task-board:~/.claude/mods/agents-panel"
   }
 }
 ```
@@ -56,7 +57,7 @@ Windows (backslashes doubled inside JSON):
 ```json
 {
   "env": {
-    "CLAUDE_CODE_PLUGIN_DIRS": "C:\\Users\\<you>\\.claude\\mods\\usage-meter;C:\\Users\\<you>\\.claude\\mods\\activity-pane;C:\\Users\\<you>\\.claude\\mods\\turn-timer;C:\\Users\\<you>\\.claude\\mods\\task-board"
+    "CLAUDE_CODE_PLUGIN_DIRS": "C:\\Users\\<you>\\.claude\\mods\\usage-meter;C:\\Users\\<you>\\.claude\\mods\\activity-pane;C:\\Users\\<you>\\.claude\\mods\\turn-timer;C:\\Users\\<you>\\.claude\\mods\\task-board;C:\\Users\\<you>\\.claude\\mods\\agents-panel"
   }
 }
 ```

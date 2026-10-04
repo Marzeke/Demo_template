@@ -15,13 +15,13 @@
     powershell -ExecutionPolicy Bypass -File .\install-windows.ps1 -DryRun
 
 .PARAMETER Mods
-  Which mods to install. Defaults to all four.
+  Which mods to install. Defaults to all of them.
 
 .PARAMETER DryRun
   Show what would change without copying files or writing settings.json.
 #>
 param(
-  [string[]]$Mods = @('usage-meter', 'activity-pane', 'turn-timer', 'task-board'),
+  [string[]]$Mods = @('usage-meter', 'activity-pane', 'turn-timer', 'task-board', 'agents-panel'),
   [switch]$DryRun
 )
 
