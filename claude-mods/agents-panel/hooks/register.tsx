@@ -250,7 +250,7 @@ export const register: Register = (on, options) => {
     const window = (await read($, contextWindow)) || 200_000
     const isCollapsed = await read($, isCompletedCollapsed)
     const width = Math.max(20, (e.props.bodyColumns || 40) - 2)
-    const barWidth = Math.max(10, width - (e.surface === 'terminal' ? 16 : 10))
+    const barWidth = Math.max(10, width - (e.surface === 'terminal' ? 20 : 10))
 
     if (list.length === 0) {
       return <Text dimColor>No agents yet. Subagents appear here as soon as Claude starts one.</Text>
@@ -282,7 +282,7 @@ export const register: Register = (on, options) => {
         const grid = rasterCells(pixels)
 
         return (
-          <Box flexDirection="column" width={13} flexShrink={0}>
+          <Box flexDirection="column" width={17} flexShrink={0}>
             <Raster key={`m-${r.id}`} columns={grid.columns} rows={grid.rows} cells={grid.cells} />
           </Box>
         )
@@ -291,8 +291,8 @@ export const register: Register = (on, options) => {
         const { Svg } = elements
 
         return (
-          <Box flexDirection="column" width={6} flexShrink={0}>
-            <Svg source={spriteSvg(pixels)} alt={alt} width={36} height={36} />
+          <Box flexDirection="column" width={7} flexShrink={0}>
+            <Svg source={spriteSvg(pixels)} alt={alt} width={48} height={48} />
           </Box>
         )
       }

@@ -3,8 +3,9 @@
 A side panel showing every subagent Claude starts in a session.
 
 - **Totals** across all agents: cost, tokens and elapsed time.
-- **A pixel-art mascot per agent**: its hat shows the effort tier (beanie and flag = heavy,
-  hard hat = careful, cap and goggles = medium, green cap and chequered flag = light). Its legs
+- **A 16x16 pixel-art mascot per agent** in the shape of Claude Code's mascot. Its hat shows the
+  effort tier (speckled beanie and blue flag = heavy, hard hat with badge = careful, ridged helmet
+  with goggles and visor = medium, green cap and chequered flag = light). See `mascots-preview.png`. Its legs
   walk while it runs, a sparkle appears when it finishes, and it fades if stopped or failed.
   Drawn as a pixel grid in the terminal and as a vector image in VS Code and the desktop app.
 - **Running** agents, each with its task, a tier word from its effort (light, medium,

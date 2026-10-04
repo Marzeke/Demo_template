@@ -15,7 +15,7 @@ Last updated: 2026-10-04
 | Setup | **Recommended**: status-band, activity-pane, task-board, agents-panel | **Standalone**: usage-meter, turn-timer, activity-pane, task-board, agents-panel | **Standalone** (same as home PC) |
 | How to install | Manual copy (Mac steps below) | `install-windows.ps1` | `install-windows.ps1`; if scripts are blocked, manual steps |
 | status-band | Built locally on this Mac (not in the repo) | Not available until copied into the repo | Not available until copied into the repo |
-| State | Installed. Copy the new agents-panel 0.2.0 (pixel mascots) | Instructions given. Check the settings line uses `marcu`, not `MZIYEUNG` | Not installed yet |
+| State | Installed. Copy the new agents-panel 0.3.0 (detailed pixel mascots) | Instructions given. Check the settings line uses `marcu`, not `MZIYEUNG` | Not installed yet |
 
 Notes:
 - The Mac's `~/.claude/mods` also holds old `usage-meter` and `turn-timer` folders. They stay
@@ -115,3 +115,4 @@ Try the installer as above. If PowerShell refuses to run it:
 | 2026-10-04 | Mac: status-band (built locally) replaces usage-meter and turn-timer. Installer and README updated to match. |
 | 2026-10-04 | agents-panel: mascots added (hat shape per effort tier, legs walk while running). |
 | 2026-10-04 | agents-panel 0.2.0: pixel-art mascots like the reference screenshot; colour themes `screenshot` (default), `claude`, `simple` in `/config`. Copy the new agents-panel folder to each machine. |
+| 2026-10-04 | agents-panel 0.3.0: more detailed 16x16 mascots in Claude Code's mascot shape (arms, four legs), speckled beanie with flag, hard hat with badge, ridged helmet with goggles band and visor, cap with chequered flag, twinkle sparkle. |
