@@ -15,7 +15,9 @@
     powershell -ExecutionPolicy Bypass -File .\install-windows.ps1 -DryRun
 
 .PARAMETER Mods
-  Which mods to install. Defaults to all of them.
+  Which mods to install. Defaults to all of them. If a status-band folder is next to this
+  script or already in the mods folder, it is loaded in place of usage-meter and turn-timer
+  (it combines both), and those two are taken out of settings.json.
 
 .PARAMETER DryRun
   Show what would change without copying files or writing settings.json.
@@ -38,6 +40,14 @@ $sourceDir = $PSScriptRoot
 function Test-ModFolder([string]$path) {
   Test-Path (Join-Path (Join-Path $path '.claude-plugin') 'plugin.json')
 }
+
+# status-band combines usage-meter and turn-timer: when it is available, load it instead of those two.
+$Combined = @('usage-meter', 'turn-timer')
+$hasStatusBand = (Test-ModFolder (Join-Path $sourceDir 'status-band')) -or (Test-ModFolder (Join-Path $modsDir 'status-band'))
+if ($hasStatusBand -and -not $PSBoundParameters.ContainsKey('Mods')) {
+  $Mods = @('status-band') + @($Mods | Where-Object { $Combined -notcontains $_ })
+}
+$Retired = if ($Mods -contains 'status-band') { $Combined } else { @() }
 
 Write-Host "Claude config folder: $claudeDir"
 Write-Host "Mods folder:          $modsDir"
@@ -105,7 +115,8 @@ if ($settings.env.PSObject.Properties['CLAUDE_CODE_PLUGIN_DIRS']) {
   $existing = @("$($settings.env.CLAUDE_CODE_PLUGIN_DIRS)" -split ';' | ForEach-Object { $_.Trim() } | Where-Object { $_ })
 }
 $ours = $modPaths | ForEach-Object { $_.TrimEnd('\', '/') }
-$names = $Mods | ForEach-Object { $_.ToLower() }
+# Also drops mods that status-band replaces, so they are not loaded twice.
+$names = @($Mods) + @($Retired) | ForEach-Object { $_.ToLower() }
 $kept = @($existing | Where-Object {
   $leaf = (Split-Path $_.TrimEnd('\', '/') -Leaf).ToLower()
   -not ($names -contains $leaf)

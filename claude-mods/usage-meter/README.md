@@ -1,5 +1,8 @@
 # usage-meter
 
+> **Replaced by status-band** where status-band is installed (it includes everything here).
+> Load this mod only on a machine without status-band, and never alongside it.
+
 A Claude Code mod that keeps an eye on how big and how expensive a session is getting.
 
 - **Status line** under the prompt, always visible:

@@ -1,5 +1,8 @@
 # turn-timer
 
+> **Replaced by status-band** where status-band is installed (it includes everything here).
+> Load this mod only on a machine without status-band, and never alongside it.
+
 Times every turn and flags the ones that look wrong.
 
 - **While Claude works**, the status line shows a live timer: `Working 1m 20s | 12 tool calls`.
